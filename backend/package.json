@@ -1,0 +1,26 @@
+{
+  "name": "deliversync-backend",
+  "version": "1.0.0",
+  "description": "DeliverSync Real-Time Logistics Tracking Application Backend",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js",
+    "db:push": "prisma db push",
+    "db:seed": "node src/seed.js",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.10.1",
+    "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "prisma": "^5.10.2"
+  }
+}

@@ -1,0 +1,44 @@
+name: deliversync_mobile
+description: "DeliverSync Mobile Logistics Tracking Application"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Firebase
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.5.1
+  firebase_storage: ^12.3.7
+  # Image Picker
+  image_picker: ^1.1.2
+  # Feedback & Toasts
+  fluttertoast: ^8.2.8
+  # State management
+  provider: ^6.1.2
+  # Fonts
+  google_fonts: ^6.2.1
+  # Internationalization / date formatting
+  intl: ^0.19.0
+  # SVG support
+  flutter_svg: ^2.0.16
+  # Cached network images
+  cached_network_image: ^3.4.1
+  # URL launcher (for tel: links)
+  url_launcher: ^6.3.1
+  # Shimmer loading effect
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

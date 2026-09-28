@@ -1,0 +1,11 @@
+{
+  "name": "deliversync-root",
+  "version": "1.0.0",
+  "description": "DeliverSync Mobile Logistics Tracking System - Complete Stack",
+  "scripts": {
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "db:seed": "cd backend && npm run db:seed",
+    "build": "cd frontend && npm run build"
+  }
+}

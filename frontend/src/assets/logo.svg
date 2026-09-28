@@ -1,0 +1,32 @@
+<svg width="240" height="60" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoBlueCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1769E8" />
+      <stop offset="100%" stop-color="#12C7C5" />
+    </linearGradient>
+    <linearGradient id="logoBluePurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2454D6" />
+      <stop offset="100%" stop-color="#7B2FF7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#14213D" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(6, 6)" filter="url(#shadow)">
+    <rect x="0" y="0" width="48" height="48" rx="14" fill="#14213D" />
+    <rect x="1" y="1" width="46" height="46" rx="13" fill="none" stroke="url(#logoBlueCyan)" stroke-width="2.5" />
+    
+    <path d="M 14 20 C 14 16 18 14 24 14 H 31 M 28 10 L 33 14 L 28 18" stroke="url(#logoBlueCyan)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 34 28 C 34 32 30 34 24 34 H 17 M 20 38 L 15 34 L 20 30" stroke="url(#logoBluePurple)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+
+    <circle cx="24" cy="24" r="3.5" fill="#FFFFFF" />
+  </g>
+
+  <text x="64" y="35" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="24" fill="#14213D" letter-spacing="-0.5">
+    Deliver<tspan fill="#1769E8">Sync</tspan>
+  </text>
+  <text x="65" y="48" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#12C7C5" letter-spacing="0.5">
+    DELIVERING TRUST, EVERY MILE
+  </text>
+</svg>

@@ -1,0 +1,170 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  DISPATCHER
+  DELIVERY_EXECUTIVE
+  OPERATIONS
+}
+
+enum DeliveryStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+  CANCELLED
+}
+
+enum EscalationStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum FailureReason {
+  CUSTOMER_UNAVAILABLE
+  WRONG_ADDRESS
+  CUSTOMER_REJECTED
+  VEHICLE_ISSUE
+  ADDRESS_INACCESSIBLE
+  WEATHER_DELAY
+  OTHER
+}
+
+model User {
+  id               String               @id @default(uuid())
+  fullName         String
+  email            String               @unique
+  phone            String
+  password         String
+  role             Role                 @default(DISPATCHER)
+  avatarUrl        String?
+  isVerified       Boolean              @default(false)
+  otpHash          String?
+  otpExpiresAt     DateTime?
+  otpAttempts      Int                  @default(0)
+  lastOtpSentAt    DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  // Relations
+  createdDeliveries    Delivery[]             @relation("CreatedBy")
+  assignedDeliveries   DeliveryAssignment[]   @relation("ExecutiveAssignments")
+  dispatchAssignments  DeliveryAssignment[]   @relation("DispatcherAssignments")
+  statusUpdates        DeliveryStatusHistory[]
+  failureReports       FailureReport[]
+  resolvedEscalations  Escalation[]
+  notifications        Notification[]
+}
+
+model Customer {
+  id           String     @id @default(uuid())
+  fullName     String
+  email        String?
+  phone        String
+  address      String
+  city         String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  deliveries   Delivery[]
+}
+
+model Delivery {
+  id               String               @id @default(uuid())
+  trackingNumber   String               @unique
+  pickupAddress    String
+  deliveryAddress  String
+  city             String
+  deliveryDate     String
+  deliveryTime     String
+  remarks          String?
+  status           DeliveryStatus       @default(PENDING)
+  eta              String?
+
+  customerId       String
+  customer         Customer             @relation(fields: [customerId], references: [id])
+
+  createdById      String
+  createdBy        User                 @relation("CreatedBy", fields: [createdById], references: [id])
+
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  assignments      DeliveryAssignment[]
+  statusHistory    DeliveryStatusHistory[]
+  failureReports   FailureReport[]
+  escalations      Escalation[]
+}
+
+model DeliveryAssignment {
+  id            String    @id @default(uuid())
+  deliveryId    String
+  delivery      Delivery  @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  executiveId   String
+  executive     User      @relation("ExecutiveAssignments", fields: [executiveId], references: [id])
+  assignedById  String
+  assignedBy    User      @relation("DispatcherAssignments", fields: [assignedById], references: [id])
+  assignedAt    DateTime  @default(now())
+}
+
+model DeliveryStatusHistory {
+  id           String         @id @default(uuid())
+  deliveryId   String
+  delivery     Delivery       @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  status       DeliveryStatus
+  updatedById  String
+  updatedBy    User           @relation(fields: [updatedById], references: [id])
+  remarks      String?
+  location     String?
+  createdAt    DateTime       @default(now())
+}
+
+model FailureReport {
+  id           String        @id @default(uuid())
+  deliveryId   String
+  delivery     Delivery      @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  executiveId  String
+  executive    User          @relation(fields: [executiveId], references: [id])
+  reason       FailureReason
+  remarks      String
+  evidenceUrl  String?
+  timestamp    DateTime      @default(now())
+
+  escalation   Escalation?
+}
+
+model Escalation {
+  id               String           @id @default(uuid())
+  failureReportId  String           @unique
+  failureReport    FailureReport    @relation(fields: [failureReportId], references: [id], onDelete: Cascade)
+  deliveryId       String
+  delivery         Delivery         @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  status           EscalationStatus @default(OPEN)
+  priority         String           @default("HIGH")
+  resolutionNotes  String?
+  resolvedById     String?
+  resolvedBy       User?            @relation(fields: [resolvedById], references: [id])
+  resolvedAt       DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  message     String
+  type        String   @default("INFO")
+  isRead      Boolean  @default(false)
+  link        String?
+  createdAt   DateTime @default(now())
+}
