@@ -40,37 +40,37 @@ class DefaultFirebaseOptions {
     storageBucket: 'deliversync-46f67.firebasestorage.app',
   );
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDeliverSyncAndroidApiKeyPlaceholder',
-    appId: '1:100400000000:android:deliversyncappandroid',
-    messagingSenderId: '100400000000',
-    projectId: 'deliversync-app',
-    storageBucket: 'deliversync-app.appspot.com',
+    apiKey: 'AIzaSyBE0ZsaWkU4ZpP6Y8P4LUD7UW1kDIqTMPo',
+    appId: '1:1009988083161:web:9fce74afa8e9354c140dc8',
+    messagingSenderId: '1009988083161',
+    projectId: 'deliversync-46f67',
+    storageBucket: 'deliversync-46f67.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDeliverSyncIosApiKeyPlaceholder123',
-    appId: '1:100400000000:ios:deliversyncappios000001',
-    messagingSenderId: '100400000000',
-    projectId: 'deliversync-app',
-    storageBucket: 'deliversync-app.appspot.com',
+    apiKey: 'AIzaSyBE0ZsaWkU4ZpP6Y8P4LUD7UW1kDIqTMPo',
+    appId: '1:1009988083161:web:9fce74afa8e9354c140dc8',
+    messagingSenderId: '1009988083161',
+    projectId: 'deliversync-46f67',
+    storageBucket: 'deliversync-46f67.firebasestorage.app',
     iosBundleId: 'com.deliversync.mobile',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDeliverSyncMacosApiKeyPlaceholder',
-    appId: '1:100400000000:ios:deliversyncappmacos0001',
-    messagingSenderId: '100400000000',
-    projectId: 'deliversync-app',
-    storageBucket: 'deliversync-app.appspot.com',
+    apiKey: 'AIzaSyBE0ZsaWkU4ZpP6Y8P4LUD7UW1kDIqTMPo',
+    appId: '1:1009988083161:web:9fce74afa8e9354c140dc8',
+    messagingSenderId: '1009988083161',
+    projectId: 'deliversync-46f67',
+    storageBucket: 'deliversync-46f67.firebasestorage.app',
     iosBundleId: 'com.deliversync.mobile',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDeliverSyncWindowsApiKeyPlaceholder',
-    appId: '1:100400000000:web:deliversyncwindows001',
-    messagingSenderId: '100400000000',
-    projectId: 'deliversync-app',
-    authDomain: 'deliversync-app.firebaseapp.com',
-    storageBucket: 'deliversync-app.appspot.com',
+    apiKey: 'AIzaSyBE0ZsaWkU4ZpP6Y8P4LUD7UW1kDIqTMPo',
+    appId: '1:1009988083161:web:9fce74afa8e9354c140dc8',
+    messagingSenderId: '1009988083161',
+    projectId: 'deliversync-46f67',
+    authDomain: 'deliversync-46f67.firebaseapp.com',
+    storageBucket: 'deliversync-46f67.firebasestorage.app',
   );
 }

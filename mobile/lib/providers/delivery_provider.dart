@@ -92,7 +92,7 @@ class DeliveryProvider extends ChangeNotifier {
       debugPrint('[DeliveryProvider] Executives found: ${_executives.length}');
     } catch (e) {
       debugPrint('[DeliveryProvider] Error fetching executives: $e');
-      _actionError = 'Unable to load Field Executives. Please try again.';
+      _actionError = 'Failed to load delivery executives: $e';
     } finally {
       _isExecutivesLoading = false;
       notifyListeners();
@@ -307,28 +307,30 @@ class DeliveryProvider extends ChangeNotifier {
 
       final currentDispatcherUid =
           dispatcherId ?? FirebaseAuth.instance.currentUser?.uid;
+      if (currentDispatcherUid == null || currentDispatcherUid.isEmpty) {
+        throw StateError('No signed-in dispatcher UID is available.');
+      }
+      if (assignedExec == null) {
+        throw StateError('The selected delivery executive was not found.');
+      }
 
       final nowStr = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
       final historyEntry = {
         'id': 'hist_${DateTime.now().millisecondsSinceEpoch}',
         'status': 'ASSIGNED',
-        'remarks': 'Assigned to ${assignedExec?.fullName ?? 'Field Executive'}',
+        'remarks': 'Assigned to ${assignedExec.fullName}',
         'createdAt': nowStr,
       };
 
       final updateData = <String, dynamic>{
         'status': 'ASSIGNED',
         'assignedTo': executiveId,
-        'assignedExecutive': assignedExec?.toJson(),
+        'assignedExecutive': assignedExec.toJson(),
         'assignedDispatcher': currentDispatcherUid,
         'updatedAt': nowStr,
         'timestamp': FieldValue.serverTimestamp(),
         'statusHistory': FieldValue.arrayUnion([historyEntry]),
       };
-
-      if (currentDispatcherUid != null && currentDispatcherUid.isNotEmpty) {
-        updateData['assignedDispatcher'] = currentDispatcherUid;
-      }
 
       await _firestore
           .collection('deliveries')
@@ -337,24 +339,22 @@ class DeliveryProvider extends ChangeNotifier {
       debugPrint(
           '[Assign] Firestore update successful for delivery $deliveryId');
 
-      if (assignedExec != null) {
-        await _firestore.collection('notifications').add({
-          'userId': assignedExec.id,
-          'title': 'Delivery Assigned 📦',
-          'message': 'A delivery has been assigned to you.',
-          'type': 'ASSIGNMENT',
-          'isRead': false,
-          'deliveryId': deliveryId,
-          'createdAt': nowStr,
-          'timestamp': FieldValue.serverTimestamp(),
-        });
-      }
+      await _firestore.collection('notifications').add({
+        'userId': assignedExec.id,
+        'title': 'Delivery Assigned 📦',
+        'message': 'A delivery has been assigned to you.',
+        'type': 'ASSIGNMENT',
+        'isRead': false,
+        'deliveryId': deliveryId,
+        'createdAt': nowStr,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
 
       await fetchDeliveries();
       return true;
     } catch (e) {
       debugPrint('[DeliveryProvider] Error assigning executive: $e');
-      _actionError = 'Unable to assign delivery. Please try again.';
+      _actionError = 'Failed to assign delivery: $e';
       notifyListeners();
       return false;
     }
